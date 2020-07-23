@@ -9,13 +9,61 @@ function moviesApi(app) {
         try {
             const movies = await Promise.resolve(moviesMock);
 
-            res.status.json({
+            res.status(200).json({
                 data: movies,
                 message: 'movies listed',
             });
         } catch (error) {
-             next(error);
+            next(error);
+        };
+    });
+    router.get('/:movieId', async function(req, res, next) {
+        try {
+            const movies = await Promise.resolve(moviesMock[0]);
+
+            res.status(200).json({
+                data: movies,
+                message: 'movies retrieved',
+            });
+        } catch (error) {
+            next(error);
+        };
+    });
+    router.post('/', async function(req, res, next) {
+        try {
+            const createMovieId = await Promise.resolve(moviesMock[0].id);
+
+            res.status(201).json({
+                data: createMovieId,
+                message: 'movies created',
+            });
+        } catch (error) {
+            next(error);
+        };
+    });
+    router.put('/:movieId', async function(req, res, next) {
+        try {
+            const movies = await Promise.resolve(moviesMock[0].id);
+
+            res.status(200).json({
+                data: movies,
+                message: 'movie updated',
+            });
+        } catch (error) {
+            next(error);
+        };
+    });
+    router.delete('/:movieId', async function(req, res, next) {
+        try {
+            const deleteMovieId = await Promise.resolve(moviesMock[0].id);
+
+            res.status(200).json({
+                data: deleteMovieId,
+                message: 'movie deleted',
+            });
+        } catch (error) {
+            next(error);
         };
     });
 };
-module.exports = moviesApi;
+module.exports = moviesApi
