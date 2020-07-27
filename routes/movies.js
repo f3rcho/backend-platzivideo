@@ -1,9 +1,10 @@
 const express = require('express');
 const MoviesService = require('../services/movies');
+const joi = require('@hapi/joi');
 
-const { movieIdSchema, 
-    createMovieSchema, 
-    updateMovieSchema 
+const { movieIdSchema,
+    createMovieSchema,
+    updateMovieSchema
 } = require('../utils/schema/movies');
 
 const validationHandler = require('../utils/middleware/validationHandler');
@@ -27,7 +28,7 @@ function moviesApi(app) {
             next(error);
         };
     });
-    router.get('/:movieId', validationHandler({ movieId: movieIdSchema}, 'params'), async function(req, res, next) {
+    router.get('/:movieId', validationHandler(joi.object({ movieId: movieIdSchema}), 'params'), async function(req, res, next) {
         const { movieId } = req.params;
         try {
             const movies = await moviesService.getMovie({ movieId });
@@ -53,7 +54,7 @@ function moviesApi(app) {
             next(error);
         };
     });
-    router.put('/:movieId', validationHandler({ movieId: movieIdSchema}, 'params'), validationHandler(updateMovieSchema), async function(req, res, next) {
+    router.put('/:movieId', validationHandler(joi.object({ movieId: movieIdSchema}), 'params'), validationHandler(updateMovieSchema), async function(req, res, next) {
         const { movieId } = req.params
         const { body: movie } = req;
         try {
@@ -67,7 +68,7 @@ function moviesApi(app) {
             next(error);
         };
     });
-    router.delete('/:movieId', validationHandler({ movieId: movieIdSchema}, 'params'), async function(req, res, next) {
+    router.delete('/:movieId', validationHandler(joi.object({ movieId: movieIdSchema}), 'params'), async function(req, res, next) {
         const { movieId } = req.params;
         try {
             const deleteMovieId = await moviesService.deleteMovie({ movieId })
@@ -79,7 +80,7 @@ function moviesApi(app) {
             next(error);
         };
     });
-    router.patch('/:movieId',validationHandler({ movieId: movieIdSchema}, 'params'), validationHandler(updateMovieSchema), async function(req, res, next) {
+    router.patch('/:movieId',validationHandler(joi.object({ movieId: movieIdSchema}), 'params'), validationHandler(updateMovieSchema), async function(req, res, next) {
         const { movieId } = req.params;
         const { body: movie } = req;
         try {

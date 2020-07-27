@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const config = require('./config/index');
 const moviesApi = require('./routes/movies');
@@ -7,8 +9,14 @@ const moviesApi = require('./routes/movies');
 const { logErrors, errorHandler, wrapErrors } = require('./utils/middleware/errorHandlers');
 const notFoundHandler = require('./utils/middleware/notFoundHandler');
 
-//body parser
-app.use(express.json())
+// parser application/x-www.form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// parse application/json
+app.use(bodyParser.json());
+
+// Enable All Cors requests
+app.use(cors());
 
 // ROUTES
 moviesApi(app);
